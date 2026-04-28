@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return jsonify({
-        "message": "Welcome to CloudKart",
+        "message": "Welcome to INDIA",
         "status": "running",
         "version": "v1"
     })
