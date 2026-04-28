@@ -5,9 +5,9 @@ pipeline {
         AWS_REGION = 'ap-south-1'
         ECR_REPO = 'cloudkart'
         EKS_CLUSTER = 'cloudkart-cluster'
-        AWS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
+        AWS_ACCOUNT_ID = '071564565553'
         IMAGE_TAG = "${BUILD_NUMBER}"
-        IMAGE_URI = "${071564565553}.dkr.ecr.${ap-south-1}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
+        IMAGE_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO}:${IMAGE_TAG}"
     }
 
     stages {
@@ -19,9 +19,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh '''
-                docker build -t $IMAGE_URI .
-                '''
+                sh 'docker build -t $IMAGE_URI .'
             }
         }
 
@@ -32,7 +30,6 @@ pipeline {
                     aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
                     aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
                     aws configure set default.region $AWS_REGION
-
                     aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
                     '''
                 }
@@ -41,9 +38,7 @@ pipeline {
 
         stage('Push Image to ECR') {
             steps {
-                sh '''
-                docker push $IMAGE_URI
-                '''
+                sh 'docker push $IMAGE_URI'
             }
         }
 
