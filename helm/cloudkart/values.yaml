@@ -1,0 +1,10 @@
+replicaCount: 2
+
+image:
+  repository: 071564565553.dkr.ecr.ap-south-1.amazonaws.com/cloudkart
+  tag: v1
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
